@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio Code
+.vscode/
+
+# Environment / secrets
+.env
+.env.*
+
+# Local development settings
+appsettings.Development.json
