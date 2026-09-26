@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers;
 
@@ -51,6 +52,33 @@ public class AuthController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok("Utilizador registado com sucesso.");
+    }
+
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> Me()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (userId == null)
+        {
+            return Unauthorized();
+        }
+
+        var utilizador = await _context.Utilizadores
+            .FindAsync(int.Parse(userId));
+
+        if (utilizador == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new
+        {
+            utilizador.Id,
+            utilizador.Nome,
+            utilizador.Username
+        });
     }
 
     [HttpPost("login")]
