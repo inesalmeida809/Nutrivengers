@@ -54,4 +54,40 @@ public class SupermercadoController : ControllerBase
 
         return Ok(supermercado);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> AtualizarSupermercado(int id, CreateSupermercadoDto dto)
+    {
+        var supermercado = await _context.Supermercados.FindAsync(id);
+
+        if(supermercado == null)
+        {
+            return NotFound("Supermercado não encontrado.");
+        }
+
+        supermercado.Nome = dto.Nome;
+        supermercado.LogoUrl = dto.LogoUrl;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(supermercado);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> ApagarSupermercado(int id)
+    {
+        var supermercado = await _context.Supermercados.FindAsync(id);
+
+        if(supermercado == null)
+        {
+            return NotFound("Supermercado não encontrado.");
+        }
+
+        _context.Supermercados.Remove(supermercado);
+        await _context.SaveChangesAsync();
+
+
+        return Ok("Supermercado apagado com sucesso.");
+    }
+    
 }
