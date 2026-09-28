@@ -136,3 +136,6 @@ C:\Users\ines0\Desktop\Nutrivengers\backend\bin\Debug\net9.0\Microsoft.IdentityM
 C:\Users\ines0\Desktop\Nutrivengers\backend\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\ines0\Desktop\Nutrivengers\backend\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\ines0\Desktop\Nutrivengers\backend\obj\Debug\net9.0\backend.sourcelink.json
+C:\Users\ines0\Desktop\Nutrivengers\backend\bin\Debug\net9.0\FluentValidation.dll
+C:\Users\ines0\Desktop\Nutrivengers\backend\bin\Debug\net9.0\FluentValidation.AspNetCore.dll
+C:\Users\ines0\Desktop\Nutrivengers\backend\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll

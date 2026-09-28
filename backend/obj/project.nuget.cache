@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "XR7gfQi9Etk=",
+  "dgSpecHash": "YScHjGpnGG8=",
   "success": true,
   "projectFilePath": "C:\\Users\\ines0\\Desktop\\Nutrivengers\\backend\\backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ines0\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\ines0\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
+    "C:\\Users\\ines0\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\ines0\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\ines0\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\ines0\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.5\\microsoft.aspnetcore.authentication.jwtbearer.9.0.5.nupkg.sha512",
     "C:\\Users\\ines0\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.5\\microsoft.aspnetcore.openapi.9.0.5.nupkg.sha512",

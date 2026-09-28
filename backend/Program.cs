@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using backend.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +70,9 @@ builder.Services.AddAuthorization();
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<ProdutoValidator>();
 
 var app = builder.Build();
 

@@ -44,12 +44,12 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> ObterProdutos()
+    public async Task<IActionResult> ObterProdutos(string? nome)
     {
-        var query = _context.Produtos.AsQueriable();
+        var query = _context.Produtos.AsQueryable();
 
         // Filtrar por nome se pesquisado
-        if(!string.IsNullOrWhitSpace(nome))
+        if(!string.IsNullOrWhiteSpace(nome))
         {
             query = query.Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
         }
