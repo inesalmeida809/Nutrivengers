@@ -15,4 +15,6 @@ public class Produto
     public string Ingredientes { get; set; } = string.Empty;
 
     public string InformacaoNutricional { get; set; } = string.Empty;
+
+    public ICollection<ProdutoSupermercado> ProdutosSupermercados { get; set; } = new List<ProdutoSupermercado>();
 }

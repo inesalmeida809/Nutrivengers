@@ -1,5 +1,6 @@
 namespace backend.DTOs.ProdutoSupermercado;
 
+//cria a associação
 public class CreateProdutoSupermercadoDto
 {
     public int ProdutoId { get; set; }

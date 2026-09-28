@@ -38,14 +38,14 @@ public class AppDbContext : DbContext
 
         //ProdutoSupermercado - Produto
         modelBuilder.Entity<ProdutoSupermercado>()
-            .HasOne<Produto>()
-            .WithMany()
+            .HasOne(ps => ps.Produto)
+            .WithMany(p => p.ProdutosSupermercados)
             .HasForeignKey(ps => ps.ProdutoId);
 
         //ProdutoSupermercado - Supermercado
         modelBuilder.Entity<ProdutoSupermercado>()
-            .HasOne<Supermercado>()
-            .WithMany()
+            .HasOne(ps => ps.Supermercado)
+            .WithMany(s => s.ProdutosSupermercados)
             .HasForeignKey(ps => ps.SupermercadoId);
 
         // ProdutoReceita

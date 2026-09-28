@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace backend.Controllers;
 
 [ApiController]
@@ -54,6 +55,26 @@ public class ProdutoSupermercadoController : ControllerBase
             new { id = produtoSupermercado.Id },
             produtoSupermercado
         );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObterProdutosSupermercados()
+    {
+        var produtosSupermercados = await _context.ProdutosSupermercados
+        .Include(ps => ps.Produto)
+        .Include(ps => ps.Supermercado)
+        .Select(ps => new ProdutoSupermercadoDto
+        {
+            Id = ps.Id,
+            Produto = ps.Produto.Nome,
+            Supermercado = ps.Supermercado.Nome,
+            Disponibilidade = ps.Disponibilidade,
+            ProductUrl = ps.ProductUrl,
+            LastChecked = ps.LastChecked
+        })
+        .ToListAsync();
+
+        return Ok(produtosSupermercados);
     }
 
     [HttpGet("{id}")]

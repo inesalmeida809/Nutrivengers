@@ -13,4 +13,8 @@ public class ProdutoSupermercado
     public string ProductUrl { get; set; } = string.Empty;
 
     public DateTime LastChecked { get; set; }
+
+    public Produto Produto { get; set; } = null!;
+
+    public Supermercado Supermercado { get; set; } = null!;
 }
