@@ -11,4 +11,6 @@ public class Receita
     public string Instrucoes { get; set; } = string.Empty;
 
     public string ImageUrl { get; set; } = string.Empty;
+
+    public ICollection<ProdutoReceita> ProdutosReceitas { get; set; } = new List<ProdutoReceita>();
 }

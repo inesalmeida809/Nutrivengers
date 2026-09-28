@@ -17,4 +17,6 @@ public class Produto
     public string InformacaoNutricional { get; set; } = string.Empty;
 
     public ICollection<ProdutoSupermercado> ProdutosSupermercados { get; set; } = new List<ProdutoSupermercado>();
+
+    public ICollection<ProdutoReceita> ProdutosReceitas { get; set; } = new List<ProdutoReceita>();
 }

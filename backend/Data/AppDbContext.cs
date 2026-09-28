@@ -54,14 +54,14 @@ public class AppDbContext : DbContext
 
         // ProdutoReceita - Produto
         modelBuilder.Entity<ProdutoReceita>()
-            .HasOne<Produto>()
-            .WithMany()
+            .HasOne(pr => pr.Produto)
+            .WithMany(p => p.ProdutosReceitas)
             .HasForeignKey(pr => pr.ProdutoId);
 
         // ProdutoReceita - Receita
         modelBuilder.Entity<ProdutoReceita>()
-            .HasOne<Receita>()
-            .WithMany()
+            .HasOne(pr => pr.Receita)
+            .WithMany(r => r.ProdutosReceitas)
             .HasForeignKey(pr => pr.ReceitaId);
 
         // RelatorioProduto
