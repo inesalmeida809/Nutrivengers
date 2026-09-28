@@ -46,7 +46,16 @@ public class ProdutoController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> ObterProdutos()
     {
-        var produtos = await _context.Produtos.ToListAsync();
+        var query = _context.Produtos.AsQueriable();
+
+        // Filtrar por nome se pesquisado
+        if(!string.IsNullOrWhitSpace(nome))
+        {
+            query = query.Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
+        }
+
+        var produtos = await query.ToListAsync();
+        
         return Ok(produtos);
     }
 
