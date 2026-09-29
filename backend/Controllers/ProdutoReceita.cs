@@ -37,6 +37,16 @@ public class ProdutoReceitaController : ControllerBase
             return NotFound("Receita não encontrada.");
         }
 
+        var associacaoExiste = await _context.ProdutosReceitas
+            .AnyAsync(pr =>
+                pr.ProdutoId == dto.ProdutoId &&
+                pr.ReceitaId == dto.ReceitaId);
+
+        if (associacaoExiste)
+        {
+            return BadRequest("Este produto já está associado a esta receita.");
+        }
+
         var produtoReceita = new ProdutoReceita
         {
             ProdutoId = dto.ProdutoId,
