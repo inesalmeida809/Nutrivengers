@@ -19,4 +19,7 @@ public class Produto
     public ICollection<ProdutoSupermercado> ProdutosSupermercados { get; set; } = new List<ProdutoSupermercado>();
 
     public ICollection<ProdutoReceita> ProdutosReceitas { get; set; } = new List<ProdutoReceita>();
+
+    public ICollection<RelatorioProduto> RelatoriosProdutos { get; set; }
+    = new List<RelatorioProduto>();
 }

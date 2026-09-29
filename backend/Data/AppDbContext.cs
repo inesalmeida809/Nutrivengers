@@ -32,7 +32,7 @@ public class AppDbContext : DbContext
     {
         //Relatorio - Utilizador
         modelBuilder.Entity<Relatorio>()
-            .HasOne<Utilizador>()
+            .HasOne(r => r.Utilizador)
             .WithMany()
             .HasForeignKey(r => r.UtilizadorId);
 
@@ -66,18 +66,18 @@ public class AppDbContext : DbContext
 
         // RelatorioProduto
         modelBuilder.Entity<RelatorioProduto>()
-         .HasKey(rp => new { rp.RelatorioId, rp.ProdutoId });
+            .HasKey(rp => new { rp.RelatorioId, rp.ProdutoId });
 
         // RelatorioProduto - Relatorio
         modelBuilder.Entity<RelatorioProduto>()
-            .HasOne<Relatorio>()
-            .WithMany()
+            .HasOne(rp => rp.Relatorio)
+            .WithMany(r => r.RelatoriosProdutos)
             .HasForeignKey(rp => rp.RelatorioId);
 
         // RelatorioProduto - Produto
         modelBuilder.Entity<RelatorioProduto>()
-            .HasOne<Produto>()
-            .WithMany()
+            .HasOne(rp => rp.Produto)
+            .WithMany(p => p.RelatoriosProdutos)
             .HasForeignKey(rp => rp.ProdutoId);
 
         // RelatorioReceita
@@ -86,14 +86,14 @@ public class AppDbContext : DbContext
 
         // RelatorioReceita - Relatorio
         modelBuilder.Entity<RelatorioReceita>()
-            .HasOne<Relatorio>()
-            .WithMany()
+            .HasOne(rr => rr.Relatorio)
+            .WithMany(r => r.RelatoriosReceitas)
             .HasForeignKey(rr => rr.RelatorioId);
 
         // RelatorioReceita - Receita
         modelBuilder.Entity<RelatorioReceita>()
-            .HasOne<Receita>()
-            .WithMany()
+            .HasOne(rr => rr.Receita)
+            .WithMany(r => r.RelatoriosReceitas)
             .HasForeignKey(rr => rr.ReceitaId);
                 
         
