@@ -60,4 +60,41 @@ public class ReceitaController : ControllerBase
 
         return Ok(receita);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> AtualizarReceita(int id, CreateReceitaDto dto)
+    {
+        var receita = await _context.Receitas.FindAsync(id);
+
+        if(receita == null)
+        {
+            return NotFound("Receita não encontrada.");
+        }
+
+        receita.Nome = dto.Nome;
+        receita.Descricao = dto.Descricao;
+        receita.Instrucoes = dto.Instrucoes;
+        receita.ImageUrl = dto.ImageUrl;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(receita);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> ApagarReceita(int id)
+    {
+        var receita = await _context.Receitas.FindAsync(id);
+
+        if(receita == null)
+        {
+            return NotFound("Receita não encontrada.");
+        }
+
+        _context.Receitas.Remove(receita);
+        await _context.SaveChangesAsync();
+
+
+        return Ok("Receita apagada com sucesso.");
+    }
 }
