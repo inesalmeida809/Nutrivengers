@@ -51,7 +51,25 @@ public class ReceitaController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterReceita(int id)
     {
-        var receita = await _context.Receitas.FindAsync(id);
+        var receita = await _context.Receitas
+        .Where(r => r.Id == id)
+        .Select(r => new ReceitaDto
+        {
+            Id = r.Id,
+            Nome = r.Nome,
+            Descricao = r.Descricao,
+            Instrucoes = r.Instrucoes,
+            ImageUrl = r.ImageUrl,
+
+            Produtos = r.ProdutosReceitas
+                .Select(pr => new ProdutoReceitaSimplesDto
+                {
+                    Id = pr.Produto.Id,
+                    Nome = pr.Produto.Nome
+                })
+                .ToList()
+        })
+        .FirstOrDefaultAsync();
 
         if (receita == null)
         {

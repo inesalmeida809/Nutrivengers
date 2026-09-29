@@ -23,6 +23,20 @@ public class ProdutoReceitaController : ControllerBase
     public async Task<IActionResult> AdicionarProdutoReceita(
         CreateProdutoReceitaDto dto)
     {
+        var produto = await _context.Produtos.FindAsync(dto.ProdutoId);
+
+        if (produto == null)
+        {
+            return NotFound("Produto não encontrado.");
+        }
+
+        var receita = await _context.Receitas.FindAsync(dto.ReceitaId);
+
+        if (receita == null)
+        {
+            return NotFound("Receita não encontrada.");
+        }
+
         var produtoReceita = new ProdutoReceita
         {
             ProdutoId = dto.ProdutoId,
