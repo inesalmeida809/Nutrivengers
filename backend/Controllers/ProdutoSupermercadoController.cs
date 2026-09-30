@@ -50,10 +50,20 @@ public class ProdutoSupermercadoController : ControllerBase
         _context.ProdutosSupermercados.Add(produtoSupermercado);
         await _context.SaveChangesAsync();
 
+        var produtoSupermercadoDto = new ProdutoSupermercadoDto
+        {
+            Id = produtoSupermercado.Id,
+            Produto = produto.Nome,
+            Supermercado = supermercado.Nome,
+            Disponibilidade = produtoSupermercado.Disponibilidade,
+            ProductUrl = produtoSupermercado.ProductUrl,
+            LastChecked = produtoSupermercado.LastChecked
+        };
+
         return CreatedAtAction(
             nameof(ObterProdutoSupermercado),
             new { id = produtoSupermercado.Id },
-            produtoSupermercado
+            produtoSupermercadoDto
         );
     }
 
@@ -80,8 +90,18 @@ public class ProdutoSupermercadoController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterProdutoSupermercado(int id)
     {
-        var produtoSupermercado =
-            await _context.ProdutosSupermercados.FindAsync(id);
+        var produtoSupermercado = await _context.ProdutosSupermercados
+            .Where(ps => ps.Id == id)
+            .Select(ps => new ProdutoSupermercadoDto
+            {
+                Id = ps.Id,
+                Produto = ps.Produto.Nome,
+                Supermercado = ps.Supermercado.Nome,
+                Disponibilidade = ps.Disponibilidade,
+                ProductUrl = ps.ProductUrl,
+                LastChecked = ps.LastChecked
+            })
+            .FirstOrDefaultAsync();
 
         if (produtoSupermercado == null)
         {
