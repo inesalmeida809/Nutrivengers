@@ -274,7 +274,32 @@ public class RelatorioController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Ok("Relatório atualizado com sucesso.");
+        var relatorioDto = await _context.Relatorios
+            .Where(r => r.Id == id)
+            .Select(r => new RelatorioDto
+            {
+                Id = r.Id,
+                UtilizadorId = r.UtilizadorId,
+                Nome = r.Nome,
+                Nota = r.Nota,
+                Produtos = r.RelatoriosProdutos
+                    .Select(rp => new ProdutoRelatorioDto
+                    {
+                        Id = rp.Produto.Id,
+                        Nome = rp.Produto.Nome
+                    })
+                    .ToList(),
+                Receitas = r.RelatoriosReceitas
+                    .Select(rr => new ReceitaRelatorioDto
+                    {
+                        Id = rr.Receita.Id,
+                        Nome = rr.Receita.Nome
+                    })
+                    .ToList()
+            })
+            .FirstAsync();
+
+        return Ok(relatorioDto);
     }
 
     [HttpDelete("{id}")]

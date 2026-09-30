@@ -56,7 +56,15 @@ public class ProdutoReceitaController : ControllerBase
         _context.ProdutosReceitas.Add(produtoReceita);
         await _context.SaveChangesAsync();
 
-        return Ok(produtoReceita);
+        var produtoReceitaDto = new ProdutoReceitaDto
+        {
+            ProdutoId = produto.Id,
+            Produto = produto.Nome,
+            ReceitaId = receita.Id,
+            Receita = receita.Nome
+        };
+
+        return Ok(produtoReceitaDto);
     }
 
     [HttpGet]
