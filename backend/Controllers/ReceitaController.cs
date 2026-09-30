@@ -33,17 +33,41 @@ public class ReceitaController : ControllerBase
         _context.Receitas.Add(receita);
         await _context.SaveChangesAsync();
 
+        var receitaDto = new ReceitaDto
+        {
+            Id = receita.Id,
+            Nome = receita.Nome,
+            Descricao = receita.Descricao,
+            Instrucoes = receita.Instrucoes,
+            ImageUrl = receita.ImageUrl
+        };
+
         return CreatedAtAction(
             nameof(ObterReceita),
             new { id = receita.Id },
-            receita
+            receitaDto
         );
     }
 
     [HttpGet]
     public async Task<IActionResult> ObterReceitas()
     {
-        var receitas = await _context.Receitas.ToListAsync();
+        var receitas = await _context.Receitas.Select(r => new ReceitaDto
+        {
+            Id = r.Id,
+            Nome = r.Nome,
+            Descricao = r.Descricao,
+            Instrucoes = r.Instrucoes,
+            ImageUrl = r.ImageUrl,
+            Produtos = r.ProdutosReceitas
+                .Select(pr => new ProdutoReceitaSimplesDto
+                {
+                    Id = pr.Produto.Id,
+                    Nome = pr.Produto.Nome
+                })
+                .ToList()
+        }).ToListAsync();
+
 
         return Ok(receitas);
     }
@@ -96,7 +120,16 @@ public class ReceitaController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Ok(receita);
+        var receitaDto = new ReceitaDto
+        {
+            Id = receita.Id,
+            Nome = receita.Nome,
+            Descricao = receita.Descricao,
+            Instrucoes = receita.Instrucoes,
+            ImageUrl = receita.ImageUrl
+        };
+
+        return Ok(receitaDto);
     }
 
     [HttpDelete("{id}")]
