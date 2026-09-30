@@ -31,13 +31,29 @@ public class SupermercadoController : ControllerBase
         _context.Supermercados.Add(supermercado);
         await _context.SaveChangesAsync();
 
-        return Ok(supermercado);
+        var supermercadoDto = new SupermercadoDto
+        {
+            Id = supermercado.Id,
+            Nome = supermercado.Nome,
+            LogoUrl = supermercado.LogoUrl
+        };
+
+        return CreatedAtAction(
+            nameof(ObterSupermercado),
+            new { id = supermercado.Id },
+            supermercadoDto
+        );
     }
 
     [HttpGet]
     public async Task<IActionResult> ObterSupermercados()
     {
-        var supermercados = await _context.Supermercados.ToListAsync();
+        var supermercados = await _context.Supermercados.Select(s => new SupermercadoDto
+        {
+            Id = s.Id,
+            Nome = s.Nome,
+            LogoUrl = s.LogoUrl
+        }).ToListAsync();
 
         return Ok(supermercados);
     }
@@ -45,7 +61,12 @@ public class SupermercadoController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterSupermercado(int id)
     {
-        var supermercado = await _context.Supermercados.FindAsync(id);
+        var supermercado = await _context.Supermercados.Where(s => s.Id == id).Select(s => new SupermercadoDto
+        {
+            Id = s.Id,
+            Nome = s.Nome,
+            LogoUrl = s.LogoUrl
+        }).FirstOrDefaultAsync();
 
         if (supermercado == null)
         {
@@ -70,7 +91,14 @@ public class SupermercadoController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Ok(supermercado);
+        var supermercadoDto = new SupermercadoDto
+        {
+            Id = supermercado.Id,
+            Nome = supermercado.Nome,
+            LogoUrl = supermercado.LogoUrl
+        };
+
+        return Ok(supermercadoDto);
     }
 
     [HttpDelete("{id}")]
