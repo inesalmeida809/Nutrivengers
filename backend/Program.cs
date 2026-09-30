@@ -98,4 +98,6 @@ app.UseCors("Frontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
+app.Run();
 
