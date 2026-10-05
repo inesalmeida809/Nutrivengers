@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const {login} = useAuth();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -14,9 +18,8 @@ function Login() {
                 password
             });
 
-            localStorage.setItem("token", response.data.token);
-
-            alert("Login efetuado com sucesso!");
+            login(response.data.token);
+            navigate("/dashboard"); 
         } catch (error) {
             alert("Username ou password incorretos.");
         }
