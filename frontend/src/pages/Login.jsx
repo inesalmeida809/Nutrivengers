@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Login.css";
 import cadeado from "../assets/cadeado.png";
 import avatar from "../assets/avatar.png";
+import toque from "../assets/toque.png";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -59,7 +60,10 @@ function Login() {
               />
             </div>
 
-            <button type="submit">LOGIN</button>
+            <button type="submit">
+              <img src={toque} alt="Login" />
+              LOGIN
+            </button>
           </form>
         </div>
       </div>
