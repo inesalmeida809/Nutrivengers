@@ -20,11 +20,13 @@
 }
 
 .login-content h1 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 75 px;
-    line-height: 1.2;
-    margin: 0 0 20px;
-    filter: drop-shadow(3px 4px 1px rgba(65, 42, 20, 0.45));
+  font-family: 'Press Start 2P', monospace;
+  font-size: 75px;
+  line-height: 1.2;
+  margin: 0 0 20px;
+  text-align: center;
+  transform: translateX(-10px);
+  filter: drop-shadow(3px 4px 1px rgba(65, 42, 20, 0.45));
 }
 
 .titulo1 {
@@ -32,7 +34,7 @@
 }
 
 .titulo2 {
-    color: #877221;
+    color: #717139;
 }
 
 .login-form {
@@ -58,16 +60,17 @@
     width: 300px;
     height: 38px;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+     font-family: 'Baloo 2', sans-serif;
     border: 2px solid #A74632;
 }
 
 .login-form input::placeholder {
-    color: #A74632;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 390;
-    font-size: 12px;
-    text-align: left;
+  color: rgba(167, 70, 50, 0.7);
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: left;
+  opacity: 1;
 }
 
 .login-form form {
@@ -85,8 +88,8 @@
 }
 
 .login-form label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+     font-family: 'Baloo 2', sans-serif;
+    font-size: 16px;
     color: #A74632;
     display: block;
     margin-bottom: 0px;
@@ -142,8 +145,8 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
+    width: 20px !important;
+    height: 20px !important;
     z-index: 1;
 }
 
@@ -208,3 +211,4 @@
     transform: scale(0.96);
     filter: brightness(0.85);
 }
+
