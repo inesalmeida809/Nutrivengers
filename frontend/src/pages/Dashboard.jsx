@@ -9,12 +9,16 @@ import carrinho from "../assets/carrinho.png";
 import { Link } from "react-router-dom";
 import lupa from "../assets/lupa.png";
 import seta from "../assets/seta.png";
+import Modal from "react-bootstrap/Modal";
 
 function Dashboard() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
+  const [showCategorias, setShowCategorias] = useState(false);
+  const handleShowCategorias = () => setShowCategorias(true);
+  const handleCloseCategorias = () => setShowCategorias(false);
 
   const handleLogout = () => {
     logout();
@@ -71,7 +75,11 @@ function Dashboard() {
         <button type="button" className="category-box"></button>
         <button type="button" className="category-box"></button>
         <button type="button" className="category-box"></button>
-        <button type="button" className="category-box">
+        <button
+          type="button"
+          onClick={handleShowCategorias}
+          className="category-box"
+        >
           {" "}
           Mais
         </button>
@@ -105,6 +113,53 @@ function Dashboard() {
           </nav>
         </Offcanvas.Body>
       </Offcanvas>
+
+      <Modal
+        show={showCategorias}
+        onHide={handleCloseCategorias}
+        centered
+        dialogClassName="categorias-modal-dialog"
+      >
+        <Modal.Header>
+          <Modal.Title>ESCOLHA A CATEGORIA</Modal.Title>
+
+          <button
+            type="button"
+            className="fechar-modal"
+            onClick={handleCloseCategorias}
+            aria-label="Fechar"
+          >
+            ×
+          </button>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="categorias-lista">
+            {[
+              "Laticínios",
+              "Frutas",
+              "Legumes",
+              "Carnes",
+              "Cereais",
+              "Mercearia",
+              "Congelados",
+            ].map((categoria) => (
+              <button
+                key={categoria}
+                type="button"
+                className="categoria-item"
+                onClick={() => {
+                  console.log("Categoria selecionada:", categoria);
+                  handleCloseCategorias();
+                }}
+              >
+                <span>{categoria}</span>
+                <span className="categoria-seta">›</span>
+              </button>
+            ))}
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

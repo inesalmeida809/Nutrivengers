@@ -185,7 +185,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
   font-family: 'Baloo 2', sans-serif;
-  color: #987451;
+  color: #ac795e;
 }
 
 .category-box:hover {
@@ -294,4 +294,94 @@
 
 .offcanvas-header {
   border-bottom: none !important;
+}
+
+/*PopUp*/
+.categorias-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-height: 55vh;
+    overflow-y: auto;
+    padding: 2px 5px;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+
+.categorias-lista::-webkit-scrollbar {
+    display: none; 
+}
+
+.categoria-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    min-height: 55px;
+    box-sizing: border-box;
+    background-color: #f0e0c7;
+    border-radius: 20px;
+    margin: 0 auto;
+    font-family: 'Press Start 2P', sans-serif;
+    color: #A74632;
+    font-size: 14px;
+    padding: 15px;
+
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.categoria-item:hover,
+.categoria-item:focus,
+.categoria-item:active,
+.categoria-item:focus-visible {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.categorias-modal-dialog .modal-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #A74632;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+.categorias-modal-dialog .modal-content {
+    background-color: #FFF3E3;
+    border: 4px solid #cb603286;
+    border-radius: 24px;
+    box-shadow: 0 8px 25px rgba(65, 42, 20, 0.25);
+    padding: 20px;
+}
+
+.categorias-modal-dialog .modal-header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: none;
+    padding: 28px 45px 35px;
+}
+
+.categorias-modal-dialog .fechar-modal {
+    position: absolute;
+    right: 5px;
+    top: 6px;
+    border: none;
+    background: transparent;
+    color: #987451;
+    font-size: 36px;
+    line-height: 1;
+    cursor: pointer;
 }
