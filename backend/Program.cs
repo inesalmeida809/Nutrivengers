@@ -6,10 +6,19 @@ using System.Text;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using backend.Validators;
+using backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<OpenFoodFactsService>(client =>
+{
+    client.BaseAddress = new Uri("https://world.openfoodfacts.org/");
+    client.DefaultRequestHeaders.UserAgent.ParseAdd(
+    "Nutrivengers/1.0");
+    client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>

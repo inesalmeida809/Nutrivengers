@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import lupa from "../assets/lupa.png";
 import seta from "../assets/seta.png";
 import Modal from "react-bootstrap/Modal";
+import { pesquisarProdutos } from "../services/produtosService";
 
 function Dashboard() {
   const { logout } = useAuth();
@@ -19,6 +20,10 @@ function Dashboard() {
   const [showCategorias, setShowCategorias] = useState(false);
   const handleShowCategorias = () => setShowCategorias(true);
   const handleCloseCategorias = () => setShowCategorias(false);
+  const [pesquisa, setPesquisa] = useState("");
+  const [produtos, setProdutos] = useState([]);
+  const [aPesquisar, setAPesquisar] = useState(false);
+  const [erroPesquisa, setErroPesquisa] = useState("");
 
   const handleLogout = () => {
     logout();
@@ -27,6 +32,29 @@ function Dashboard() {
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const handlePesquisar = async () => {
+    console.log("Cliqiuei no botão de pesquisar com a pesquisa:", pesquisa);
+    if (!pesquisa.trim()) {
+      setProdutos([]);
+      setErroPesquisa("Escreve o nome de um alimento.");
+      return;
+    }
+
+    try {
+      setAPesquisar(true);
+      setErroPesquisa("");
+
+      const dados = await pesquisarProdutos(pesquisa.trim());
+      setProdutos(dados.products ?? []);
+    } catch (erro) {
+      console.error("Erro ao pesquisar produtos:", erro);
+      setErroPesquisa("Não foi possível carregar os produtos.");
+      setProdutos([]);
+    } finally {
+      setAPesquisar(false);
+    }
+  };
 
   return (
     <div className="dashboard-container">
@@ -40,14 +68,15 @@ function Dashboard() {
             </span>
           </Button>
 
-          <a className="navbar-brand" href="#">
+          <div className="navbar-brand">
             <Link to="/carrinho">
               <img src={carrinho} alt="Carrinho" className="carrinho" />
             </Link>
+
             <Link to="/perfil">
               <img src={avatar3} alt="Avatar" className="avatar3" />
             </Link>
-          </a>
+          </div>
         </div>
       </nav>
       <div className="dashboard-content">
@@ -60,12 +89,24 @@ function Dashboard() {
 
       <div className="dashboard-search">
         <img src={lupa} alt="Lupa" className="lupa" />
+
         <input
           type="search"
           placeholder="Procurar alimentos..."
           aria-label="Pesquisar produtos"
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handlePesquisar();
+          }}
         />
-        <button type="button" aria-label="Seta">
+
+        <button
+          type="button"
+          aria-label="Pesquisar"
+          onClick={handlePesquisar}
+          disabled={aPesquisar}
+        >
           <img src={seta} alt="" className="seta" />
         </button>
       </div>
