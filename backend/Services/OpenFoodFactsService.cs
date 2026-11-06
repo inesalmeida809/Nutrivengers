@@ -1,4 +1,4 @@
-
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -27,8 +27,12 @@ public class OpenFoodFactsService
             q = pesquisa,
             langs = new[] { "pt", "en" },
             page = 1,
-            size = 20
+            page_size = 20
         };
+
+        var jsonPedido = JsonSerializer.Serialize(pedido);
+        Console.WriteLine("PEDIDO ENVIADO À OPEN FOOD FACTS:");
+        Console.WriteLine(jsonPedido);
 
         using var resposta = await _httpClient.PostAsJsonAsync(
             "https://search.openfoodfacts.org/search",
@@ -59,6 +63,12 @@ public class OpenFoodFactsService
             cancellationToken: cancellationToken
         );
 
-        return documento.RootElement.Clone();
+        var raiz = documento.RootElement;
+
+        Console.WriteLine($"Total de hits: {raiz.GetProperty("hits").GetArrayLength()}");
+        Console.WriteLine($"Página: {raiz.GetProperty("page")}");
+        Console.WriteLine($"Chaves da resposta: {string.Join(", ", raiz.EnumerateObject().Select(p => p.Name))}");
+
+return raiz.Clone();
     }
 }

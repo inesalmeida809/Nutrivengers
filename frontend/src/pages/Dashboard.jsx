@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import lupa from "../assets/lupa.png";
 import seta from "../assets/seta.png";
 import Modal from "react-bootstrap/Modal";
-import { pesquisarProdutos } from "../services/produtosService";
 
 function Dashboard() {
   const { logout } = useAuth();
@@ -21,8 +20,6 @@ function Dashboard() {
   const handleShowCategorias = () => setShowCategorias(true);
   const handleCloseCategorias = () => setShowCategorias(false);
   const [pesquisa, setPesquisa] = useState("");
-  const [produtos, setProdutos] = useState([]);
-  const [aPesquisar, setAPesquisar] = useState(false);
   const [erroPesquisa, setErroPesquisa] = useState("");
 
   const handleLogout = () => {
@@ -33,28 +30,16 @@ function Dashboard() {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  const handlePesquisar = async () => {
-    console.log("Cliqiuei no botão de pesquisar com a pesquisa:", pesquisa);
-    if (!pesquisa.trim()) {
-      setProdutos([]);
-      setErroPesquisa("Escreve o nome de um alimento.");
-      return;
-    }
+  const handlePesquisar = () => {
+  if (!pesquisa.trim()) {
+    setErroPesquisa("Escreve o nome de um alimento.");
+    return;
+  }
 
-    try {
-      setAPesquisar(true);
-      setErroPesquisa("");
+  setErroPesquisa("");
 
-      const dados = await pesquisarProdutos(pesquisa.trim());
-      setProdutos(dados.products ?? []);
-    } catch (erro) {
-      console.error("Erro ao pesquisar produtos:", erro);
-      setErroPesquisa("Não foi possível carregar os produtos.");
-      setProdutos([]);
-    } finally {
-      setAPesquisar(false);
-    }
-  };
+  navigate(`/pesquisa?termo=${encodeURIComponent(pesquisa.trim())}`);
+};
 
   return (
     <div className="dashboard-container">
@@ -105,11 +90,12 @@ function Dashboard() {
           type="button"
           aria-label="Pesquisar"
           onClick={handlePesquisar}
-          disabled={aPesquisar}
+        
         >
           <img src={seta} alt="" className="seta" />
         </button>
       </div>
+      
 
       <div className="category-boxes">
         <button type="button" className="category-box"></button>
