@@ -1,6 +1,5 @@
-using System.Linq;
+
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace backend.Services;
@@ -20,26 +19,26 @@ public class OpenFoodFactsService
 
     public async Task<JsonElement> PesquisarProdutosAsync(
         string pesquisa,
+        int pagina = 1,
         CancellationToken cancellationToken = default)
     {
-        var pedido = new
-        {
-            q = pesquisa,
-            langs = new[] { "pt", "en" },
-            page = 1,
-            page_size = 20
-        };
+        // Preparar os parâmetros da pesquisa
+        string pesquisaCodificada = Uri.EscapeDataString(pesquisa);
 
-        var jsonPedido = JsonSerializer.Serialize(pedido);
-        Console.WriteLine("PEDIDO ENVIADO À OPEN FOOD FACTS:");
-        Console.WriteLine(jsonPedido);
+        string url =
+            $"https://search.openfoodfacts.org/search" +
+            $"?q={pesquisaCodificada}" +
+            $"&page={pagina}" +
+            $"&page_size=20" +
+            $"&langs=pt,en";
 
-        using var resposta = await _httpClient.PostAsJsonAsync(
-            "https://search.openfoodfacts.org/search",
-            pedido,
+        // Enviar pedido GET
+        using var resposta = await _httpClient.GetAsync(
+            url,
             cancellationToken
         );
 
+        // Verificar se o pedido foi bem-sucedido
         if (!resposta.IsSuccessStatusCode)
         {
             var detalhe = await resposta.Content.ReadAsStringAsync(
@@ -54,6 +53,7 @@ public class OpenFoodFactsService
             );
         }
 
+        // Ler a resposta
         await using var stream = await resposta.Content.ReadAsStreamAsync(
             cancellationToken
         );
@@ -63,12 +63,7 @@ public class OpenFoodFactsService
             cancellationToken: cancellationToken
         );
 
-        var raiz = documento.RootElement;
-
-        Console.WriteLine($"Total de hits: {raiz.GetProperty("hits").GetArrayLength()}");
-        Console.WriteLine($"Página: {raiz.GetProperty("page")}");
-        Console.WriteLine($"Chaves da resposta: {string.Join(", ", raiz.EnumerateObject().Select(p => p.Name))}");
-
-return raiz.Clone();
+        // Devolver o resultado
+        return documento.RootElement.Clone();
     }
 }

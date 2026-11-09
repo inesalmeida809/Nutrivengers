@@ -1,0 +1,299 @@
+
+/* =====================================
+   PÁGINA DE PESQUISA
+===================================== */
+
+.pesquisa-produtos-container {
+  min-height: 100vh;
+  height: 100vh;
+  padding: 0;
+  background-color: #EFB880;
+  color: #594735;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* =====================================
+   NAVBAR
+===================================== */
+
+.pesquisa-produtos-container .navbar {
+  background-color: rgba(251, 229, 199, 0.95);
+  height: 60px;
+  border-radius: 50px;
+  margin: 10px 10px;
+  padding: 0 20px;
+}
+
+.pesquisa-produtos-container .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pesquisa-produtos-container .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  color: #A74632 !important;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Botão hamburger */
+
+.pesquisa-produtos-container .menu-toggle {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  box-shadow: none;
+}
+
+.pesquisa-produtos-container .menu-toggle:hover,
+.pesquisa-produtos-container .menu-toggle:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+.pesquisa-produtos-container .hamburger-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pesquisa-produtos-container .hamburger-lines span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #A74632;
+  border-radius: 3px;
+}
+
+/* Ícones da navbar */
+
+.pesquisa-produtos-container .carrinho,
+.pesquisa-produtos-container .avatar3 {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* =====================================
+   MENSAGENS
+===================================== */
+
+.pesquisa-produtos-container h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.pesquisa-produtos-container > p {
+  color: #927E69;
+  margin: 10px 5%;
+}
+
+/* =====================================
+   GRELHA DE PRODUTOS
+===================================== */
+
+.produtos-grid {
+  display: grid;
+
+  /* 5 colunas e 4 linhas */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+
+  gap: 12px 18px;
+
+  margin: 15px 5% 0;
+  width: 90%;
+
+  /* Espaço reservado para a paginação */
+  height: calc(100vh - 160px);
+
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+/* =====================================
+   CARTÕES
+===================================== */
+
+.produto-card {
+  background-color: #FFFAF2;
+  border: 1px solid #E8D9C5;
+  border-radius: 12px;
+  padding: 8px;
+
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+
+  box-sizing: border-box;
+}
+
+.produto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(80, 55, 30, 0.12);
+}
+
+/* =====================================
+   IMAGENS
+===================================== */
+
+.produto-card-imagem {
+  width: 100%;
+  height: 85px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.produto-card-imagem img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+/* =====================================
+   INFORMAÇÃO DOS PRODUTOS
+===================================== */
+
+.produto-card-info {
+  padding: 5px 3px;
+  min-width: 0;
+}
+
+.produto-card-marca {
+  display: block;
+  color: #9B805F;
+  font-size: 10px;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.produto-card-info h3 {
+  color: #594735;
+  font-size: 12px;
+  font-weight: 600;
+
+  margin: 3px 0;
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
+}
+
+.produto-card-info p {
+  color: #927E69;
+  font-size: 10px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* =====================================
+   PAGINAÇÃO
+===================================== */
+
+.paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+
+  padding: 12px 0 18px;
+  color: #594735;
+  font-weight: 600;
+}
+
+.paginacao button {
+  background-color: #594735;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.paginacao button:hover:not(:disabled) {
+  background-color: #80664b;
+}
+
+.paginacao button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.paginacao span {
+  font-size: 15px;
+}
+
+/* =====================================
+   RESPONSIVIDADE
+===================================== */
+
+/* Portáteis e ecrãs médios */
+
+@media (max-width: 1100px) {
+  .pesquisa-produtos-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .produtos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto;
+    height: auto;
+  }
+}
+
+/* Tablets */
+
+@media (max-width: 750px) {
+  .produtos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: 14px;
+    margin: 20px 4%;
+    width: 92%;
+  }
+
+  .produto-card-imagem {
+    height: 120px;
+  }
+
+  .produto-card-info h3 {
+    font-size: 13px;
+  }
+}
+
+/* Telemóveis pequenos */
+
+@media (max-width: 380px) {
+  .produtos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .paginacao {
+    gap: 12px;
+  }
+
+  .paginacao button {
+    padding: 9px 14px;
+  }
+}

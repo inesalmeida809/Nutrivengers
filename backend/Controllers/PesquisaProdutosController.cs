@@ -18,7 +18,8 @@ public class PesquisaProdutosController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Pesquisar(
         [FromQuery] string pesquisa,
-        CancellationToken cancellationToken)
+        [FromQuery] int pagina = 1,
+        CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(pesquisa))
         {
@@ -28,24 +29,32 @@ public class PesquisaProdutosController : ControllerBase
             });
         }
 
-        
-try
-{
-    var resultado = await _service.PesquisarProdutosAsync(
-        pesquisa,
-        cancellationToken);
+        if (pagina < 1)
+        {
+            return BadRequest(new
+            {
+                mensagem = "O número da página tem de ser superior a zero."
+            });
+        }
 
-    return Ok(resultado);
-}
-catch (HttpRequestException ex)
-{
-    return StatusCode(502, new
-    {
-        mensagem = "Não foi possível obter os produtos da fonte externa.",
-        detalhe = ex.Message,
-        codigoHttp = ex.StatusCode?.ToString()
-    });
-}
+        try
+        {
+            var resultado = await _service.PesquisarProdutosAsync(
+                pesquisa,
+                pagina,
+                cancellationToken
+            );
 
+            return Ok(resultado);
+        }
+        catch (HttpRequestException ex)
+        {
+            return StatusCode(502, new
+            {
+                mensagem = "Não foi possível obter os produtos da fonte externa.",
+                detalhe = ex.Message,
+                codigoHttp = ex.StatusCode?.ToString()
+            });
+        }
     }
 }
