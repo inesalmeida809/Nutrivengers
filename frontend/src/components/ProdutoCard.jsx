@@ -91,8 +91,8 @@ function ProdutoCard({ produto, onClick }) {
     produto.product_name ||
     produto.generic_name_pt ||
     "Produto sem nome";
-  
-  if (nome.toLowerCase().includes("manteiga")) {
+
+   if (nome.toLowerCase().includes("manteiga")) {
   console.log("PRODUTO:", nome);
   console.log("CATEGORIAS:", produto.categories_tags);
   console.log("IMAGEM:", {
@@ -101,6 +101,7 @@ function ProdutoCard({ produto, onClick }) {
     pequena: produto.image_small_url
   });
 }
+    
 
   const marca = Array.isArray(produto.brands)
     ? produto.brands.join(", ")
