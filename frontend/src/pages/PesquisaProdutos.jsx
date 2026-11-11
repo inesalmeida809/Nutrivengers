@@ -172,7 +172,7 @@ function PesquisaProdutos() {
           </button>
 
           <span>
-            Página {pagina} de {totalPaginas}
+            {pagina} de {totalPaginas}
           </span>
 
           <button

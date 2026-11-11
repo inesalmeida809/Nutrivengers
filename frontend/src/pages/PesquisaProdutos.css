@@ -215,22 +215,23 @@
   gap: 25px;
 
   padding: 12px 0 18px;
-  color: #594735;
+  color: #A74632;
   font-weight: 600;
+  font-family: 'Baloo 2', sans-serif;
 }
 
 .paginacao button {
-  background-color: #594735;
+  background-color: #A74632;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 18px;
   padding: 10px 22px;
   cursor: pointer;
   transition: 0.2s;
 }
 
 .paginacao button:hover:not(:disabled) {
-  background-color: #80664b;
+  background-color: #d3a87b;
 }
 
 .paginacao button:disabled {

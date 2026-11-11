@@ -185,7 +185,8 @@
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
   font-family: 'Baloo 2', sans-serif;
-  color: #ac795e;
+  color: #987451;
+  font-weight: 600;
 }
 
 .category-box:hover {

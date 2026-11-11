@@ -1,15 +1,17 @@
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import Modal from "react-bootstrap/Modal";
+import api from "../services/api";
+
 import "./Dashboard.css";
 import avatar3 from "../assets/avatar3.png";
 import carrinho from "../assets/carrinho.png";
-import { Link } from "react-router-dom";
 import lupa from "../assets/lupa.png";
 import seta from "../assets/seta.png";
-import Modal from "react-bootstrap/Modal";
 
 function Dashboard() {
   const { logout } = useAuth();
@@ -17,29 +19,70 @@ function Dashboard() {
 
   const [show, setShow] = useState(false);
   const [showCategorias, setShowCategorias] = useState(false);
-  const handleShowCategorias = () => setShowCategorias(true);
-  const handleCloseCategorias = () => setShowCategorias(false);
+
   const [pesquisa, setPesquisa] = useState("");
   const [erroPesquisa, setErroPesquisa] = useState("");
+
+  const [categorias, setCategorias] = useState([]);
+  const [aCarregarCategorias, setACarregarCategorias] = useState(true);
+  const [erroCategorias, setErroCategorias] = useState("");
+
+  const categoriasPrincipais = categorias.slice(0, 4);
+  const categoriasRestantes = categorias.slice(4);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const handleShowCategorias = () => setShowCategorias(true);
+  const handleCloseCategorias = () => setShowCategorias(false);
+
+  useEffect(() => {
+    const carregarCategorias = async () => {
+      try {
+        setACarregarCategorias(true);
+        setErroCategorias("");
+
+        const resposta = await api.get(
+          "/pesquisa-produtos/categorias-principais"
+        );
+
+        setCategorias(resposta.data || []);
+      } catch (error) {
+        console.error("Erro ao carregar categorias:", error);
+        setErroCategorias("Não foi possível carregar as categorias.");
+      } finally {
+        setACarregarCategorias(false);
+      }
+    };
+
+    carregarCategorias();
+  }, []);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-
   const handlePesquisar = () => {
-  if (!pesquisa.trim()) {
-    setErroPesquisa("Escreve o nome de um alimento.");
-    return;
-  }
+    if (!pesquisa.trim()) {
+      setErroPesquisa("Escreve o nome de um alimento.");
+      return;
+    }
 
-  setErroPesquisa("");
+    setErroPesquisa("");
 
-  navigate(`/pesquisa?termo=${encodeURIComponent(pesquisa.trim())}`);
-};
+    navigate(
+      `/pesquisa?termo=${encodeURIComponent(pesquisa.trim())}`
+    );
+  };
+
+  const handleSelecionarCategoria = (categoria) => {
+    handleCloseCategorias();
+
+    navigate(
+      `/pesquisa?categoria=${encodeURIComponent(categoria.id)}`
+    );
+  };
 
   return (
     <div className="dashboard-container">
@@ -64,6 +107,7 @@ function Dashboard() {
           </div>
         </div>
       </nav>
+
       <div className="dashboard-content">
         <h1>
           <span className="titulo1">BEM VINDA,</span>
@@ -82,7 +126,9 @@ function Dashboard() {
           value={pesquisa}
           onChange={(e) => setPesquisa(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handlePesquisar();
+            if (e.key === "Enter") {
+              handlePesquisar();
+            }
           }}
         />
 
@@ -90,26 +136,44 @@ function Dashboard() {
           type="button"
           aria-label="Pesquisar"
           onClick={handlePesquisar}
-        
         >
           <img src={seta} alt="" className="seta" />
         </button>
       </div>
-      
+
+      {erroPesquisa && (
+        <p className="erro-pesquisa">{erroPesquisa}</p>
+      )}
 
       <div className="category-boxes">
-        <button type="button" className="category-box"></button>
-        <button type="button" className="category-box"></button>
-        <button type="button" className="category-box"></button>
-        <button type="button" className="category-box"></button>
-        <button
-          type="button"
-          onClick={handleShowCategorias}
-          className="category-box"
-        >
-          {" "}
-          Mais
-        </button>
+        {aCarregarCategorias ? (
+          <p>A carregar categorias...</p>
+        ) : erroCategorias ? (
+          <p>{erroCategorias}</p>
+        ) : (
+          <>
+            {categoriasPrincipais.map((categoria) => (
+              <button
+                key={categoria.id}
+                type="button"
+                className="category-box"
+                onClick={() => handleSelecionarCategoria(categoria)}
+              >
+                {categoria.nome}
+              </button>
+            ))}
+
+            {categoriasRestantes.length > 0 && (
+              <button
+                type="button"
+                onClick={handleShowCategorias}
+                className="category-box"
+              >
+                Mais
+              </button>
+            )}
+          </>
+        )}
       </div>
 
       <Offcanvas show={show} onHide={handleClose} placement="start">
@@ -124,19 +188,24 @@ function Dashboard() {
         <Offcanvas.Body>
           <nav className="side-menu">
             <p>
-              <a href="/dashboard">HOME</a>
-            </p>
-            <p>
-              <a href="/produtos">PRODUTOS</a>
-            </p>
-            <p>
-              <a href="/receitas">RECEITAS</a>
-            </p>
-            <p>
-              <a href="/relatorios">RELATORIOS</a>
+              <Link to="/dashboard">HOME</Link>
             </p>
 
-            <button onClick={handleLogout}>TERMINAR SESSAO</button>
+            <p>
+              <Link to="/produtos">PRODUTOS</Link>
+            </p>
+
+            <p>
+              <Link to="/receitas">RECEITAS</Link>
+            </p>
+
+            <p>
+              <Link to="/relatorios">RELATORIOS</Link>
+            </p>
+
+            <button onClick={handleLogout}>
+              TERMINAR SESSAO
+            </button>
           </nav>
         </Offcanvas.Body>
       </Offcanvas>
@@ -162,25 +231,14 @@ function Dashboard() {
 
         <Modal.Body>
           <div className="categorias-lista">
-            {[
-              "Laticínios",
-              "Frutas",
-              "Legumes",
-              "Carnes",
-              "Cereais",
-              "Mercearia",
-              "Congelados",
-            ].map((categoria) => (
+            {categoriasRestantes.map((categoria) => (
               <button
-                key={categoria}
+                key={categoria.id}
                 type="button"
                 className="categoria-item"
-                onClick={() => {
-                  console.log("Categoria selecionada:", categoria);
-                  handleCloseCategorias();
-                }}
+                onClick={() => handleSelecionarCategoria(categoria)}
               >
-                <span>{categoria}</span>
+                <span>{categoria.nome}</span>
                 <span className="categoria-seta">›</span>
               </button>
             ))}
