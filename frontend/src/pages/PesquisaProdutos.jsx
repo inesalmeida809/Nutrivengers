@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 import Button from "react-bootstrap/Button";
@@ -15,8 +15,9 @@ import "./PesquisaProdutos.css";
 
 import lupa from "../assets/lupa.png";
 
-
 function PesquisaProdutos() {
+
+  const navigate = useNavigate();
   const { logout } = useAuth();
 
   const [show, setShow] = useState(false);
@@ -113,8 +114,6 @@ function PesquisaProdutos() {
           </Button>
 
           <div className="pesquisa-container">
-           
-
             <input
               type="search"
               placeholder="Procurar alimentos..."
@@ -198,7 +197,7 @@ function PesquisaProdutos() {
           <ProdutoCard
             key={produto.code}
             produto={produto}
-            onClick={(produto) => console.log("Produto selecionado:", produto)}
+            onClick={() => navigate(`/infoproduto/${produto.code}`)}
           />
         ))}
       </div>

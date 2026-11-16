@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import PesquisaProdutos from "./pages/PesquisaProdutos";
+import InfoProduto from "./pages/InfoProduto";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -20,6 +21,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/pesquisa" element={<PesquisaProdutos />} />
+            <Route path="/infoproduto/:id" element={<InfoProduto />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -192,7 +192,7 @@ function Dashboard() {
             </p>
 
             <p>
-              <Link to="/produtos">PRODUTOS</Link>
+              <Link to="/pesquisa">PRODUTOS</Link>
             </p>
 
             <p>
