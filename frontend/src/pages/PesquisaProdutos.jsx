@@ -13,6 +13,9 @@ import carrinho from "../assets/carrinho.png";
 
 import "./PesquisaProdutos.css";
 
+import lupa from "../assets/lupa.png";
+
+
 function PesquisaProdutos() {
   const { logout } = useAuth();
 
@@ -22,7 +25,9 @@ function PesquisaProdutos() {
   const handleClose = () => setShow(false);
 
   const [searchParams] = useSearchParams();
-  const pesquisa = searchParams.get("termo") || "";
+  const termoURL = searchParams.get("termo") || "";
+
+  const [pesquisa, setPesquisa] = useState(termoURL);
 
   const handleLogout = () => {
     logout();
@@ -36,6 +41,17 @@ function PesquisaProdutos() {
   // Paginação
   const [pagina, setPagina] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
+
+  const handlePesquisar = () => {
+    if (!pesquisa.trim()) {
+      setErroPesquisa("Escreve o nome de um alimento.");
+      return;
+    }
+
+    setErroPesquisa("");
+
+    navigate(`/pesquisa?termo=${encodeURIComponent(pesquisa.trim())}`);
+  };
 
   // Quando a pesquisa muda, voltar à primeira página
   useEffect(() => {
@@ -95,6 +111,32 @@ function PesquisaProdutos() {
               <span></span>
             </span>
           </Button>
+
+          <div className="pesquisa-container">
+           
+
+            <input
+              type="search"
+              placeholder="Procurar alimentos..."
+              aria-label="Pesquisar produtos"
+              value={pesquisa}
+              onChange={(e) => setPesquisa(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handlePesquisar();
+                }
+              }}
+            />
+
+            <button
+              type="button"
+              aria-label="Pesquisar"
+              onClick={handlePesquisar}
+              className="pesquisa-button"
+            >
+              <img src={lupa} alt="" className="lupa" />
+            </button>
+          </div>
 
           <div className="navbar-brand">
             <Link to="/carrinho">

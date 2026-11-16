@@ -406,3 +406,66 @@
     gap: 15px;
   }
 }
+
+
+.pesquisa-container {
+
+  width: 20%;
+  margin-left: 30px;
+  margin-right: auto;
+  
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #FFFFFF;
+ 
+  border-radius: 25px;
+
+  padding: 0 15px;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.pesquisa-container input {
+  width: 100%;
+  height: 100%;
+
+  background-color: transparent;
+  color: #594735;
+
+  border: none;
+  outline: none;
+
+  font-size: 16px;
+  font-family: 'Baloo 2', sans-serif;
+}
+
+.pesquisa-container input::placeholder {
+  color: #B49B80;
+}
+.pesquisa-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.lupa {
+  width: 22px;
+  height: 22px;
+
+  object-fit: contain;
+  display: block;
+
+  margin: 0;
+}
